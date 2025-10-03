@@ -4,19 +4,10 @@ import { addToCart } from '@/app/actions'
 import { SanityProduct } from '@/types'
 import { toast } from 'sonner'
 import { Button } from './ui/button'
-import { useEffect, useState } from 'react'
+import { useAuth, SignInButton } from '@clerk/nextjs'
 
 export function AddToCart({ product }: { product: SanityProduct }) {
-  const [sessionId, setSessionId] = useState<string | null>(null)
-
-  useEffect(() => {
-    let sid = localStorage.getItem('sessionId')
-    if (!sid) {
-      sid = Math.random().toString(36).substring(2, 15) + Math.random().toString(36).substring(2, 15)
-      localStorage.setItem('sessionId', sid)
-    }
-    setSessionId(sid)
-  }, [])
+  const { userId, sessionId } = useAuth()
 
   const handleFormAction = async () => {
     if (product._id && sessionId) {
@@ -30,6 +21,14 @@ export function AddToCart({ product }: { product: SanityProduct }) {
     } else {
       toast.error('Product information is missing.')
     }
+  }
+
+  if (!userId) {
+    return (
+      <SignInButton mode="modal">
+        <Button>Add to Cart</Button>
+      </SignInButton>
+    )
   }
 
   return (
