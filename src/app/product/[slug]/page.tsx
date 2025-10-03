@@ -5,7 +5,7 @@ import { getProductBySlug } from '@/lib/sanity.queries'
 import { SanityProduct } from '@/types'
 import { ProductImage } from '@/components/ProductImage'
 import { Skeleton } from '@/components/ui/skeleton'
-import { AddToCartForm } from '@/components/AddToCartForm'
+import { BuyNow } from '@/components/BuyNow'
 
 function ProductDetailsSkeleton() {
   return (
@@ -72,8 +72,7 @@ async function ProductDetails({ slug }: { slug: string }) {
             <div className="mt-4 lg:row-span-3 lg:mt-0">
               <h2 className="sr-only">Product information</h2>
               <p className="text-3xl tracking-tight text-gray-900">${product.price / 100}</p>
-
-              <AddToCartForm product={product} />
+              <BuyNow product={product} />
             </div>
           </div>
         </div>
