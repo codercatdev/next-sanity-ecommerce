@@ -29,3 +29,12 @@ export interface FeaturedProduct {
   price: number;
   slug: string;
 }
+
+export interface SanityCart {
+  _id: string;
+  items: {
+    _key: string;
+    quantity: number;
+    product: SanityProduct;
+  }[];
+}

@@ -10,6 +10,7 @@
     "seed": "node scripts/seed-data.js"
   },
   "dependencies": {
+    "@clerk/nextjs": "^6.33.1",
     "@radix-ui/react-slot": "^1.2.3",
     "@sanity/client": "^7.11.2",
     "class-variance-authority": "^0.7.1",

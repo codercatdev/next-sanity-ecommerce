@@ -1,4 +1,6 @@
+import { SignedOut, SignInButton, SignUpButton, SignedIn, UserButton } from '@clerk/nextjs'
 import Link from 'next/link'
+import { Button } from './ui/button'
 
 export function Header() {
   return (
@@ -20,6 +22,22 @@ export function Header() {
         </div>
         <div className="hidden lg:flex lg:flex-1 lg:justify-end">
           {/* Add cart icon here */}
+
+          <SignedOut>
+            <SignInButton>
+              <Button variant="ghost">
+                Sign In
+              </Button>
+            </SignInButton>
+            <SignUpButton>
+              <Button>
+                Sign Up
+              </Button>
+            </SignUpButton>
+          </SignedOut>
+          <SignedIn>
+            <UserButton />
+          </SignedIn>
         </div>
       </nav>
     </header>

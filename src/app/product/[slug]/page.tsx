@@ -6,6 +6,7 @@ import { SanityProduct } from '@/types'
 import { ProductImage } from '@/components/ProductImage'
 import { Skeleton } from '@/components/ui/skeleton'
 import { BuyNow } from '@/components/BuyNow'
+import { AddToCart } from '@/components/AddToCart'
 
 function ProductDetailsSkeleton() {
   return (
@@ -72,12 +73,13 @@ async function ProductDetails({ slug }: { slug: string }) {
             <div className="mt-4 lg:row-span-3 lg:mt-0">
               <h2 className="sr-only">Product information</h2>
               <p className="text-3xl tracking-tight text-gray-900">${product.price / 100}</p>
-              <BuyNow product={product} />
+              <div className="flex gap-4 mt-2 md:mt-8">
+                <BuyNow product={product} />
+                <AddToCart product={product} />
+              </div>
             </div>
           </div>
         </div>
-
-
       </div>
     </div>
   )
