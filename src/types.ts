@@ -5,7 +5,12 @@ export interface SanityProduct {
     current: string;
   };
   description: string;
-  images: any[]; // Replace with a proper image type
+  image: {
+    metadata: {
+      lqip: string;
+    },
+    url: string;
+  };
   price: number;
   priceId: string;
   stripeProductId: string;

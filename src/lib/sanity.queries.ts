@@ -21,7 +21,16 @@ export async function getProducts() {
 
 export async function getProductBySlug(slug: string) {
   return client.fetch(
-    `*[_type == "product" && slug.current == $slug][0]`,
+    `
+    *[_type == "product" && slug.current == $slug][0]{
+      _id,
+      name,
+      description,
+      "slug": slug.current,
+      "price": default_price->.unit_amount,
+      "image": images[0].asset->,
+    }
+    `,
     { slug },
     {
       next: {

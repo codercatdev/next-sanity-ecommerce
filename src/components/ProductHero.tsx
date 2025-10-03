@@ -1,0 +1,30 @@
+"use client"
+
+import Link from 'next/link'
+import { FeaturedProduct } from '@/types'
+import { sanityClient } from '@/lib/sanity';
+import { useNextSanityImage } from 'next-sanity-image';
+import Img from 'next/image';
+
+export function ProductHero({ product }: { product: FeaturedProduct }) {
+  const imageProps = useNextSanityImage(sanityClient, product.image, {
+    imageBuilder: (builder) => builder.width(1200).height(1200).fit('crop').crop('center')
+  });
+
+  return (
+    <Link href={`/product/${product.slug}`} className="group">
+      <div className="aspect-h-1 aspect-w-1 w-full overflow-hidden rounded-lg bg-gray-200 xl:aspect-h-8 xl:aspect-w-8">
+        <Img
+          {...imageProps}
+          alt={product.name}
+          style={{ width: '100%', height: 'auto' }} // layout="responsive" prior to Next 13.0.0
+          sizes="(max-width: 1200px) 100vw, 1200px"
+          placeholder="blur"
+          blurDataURL={product.image.metadata.lqip}
+        />
+      </div>
+      {/* <h3 className="mt-4 text-sm text-gray-700">{product.name}</h3>
+      <p className="mt-1 text-lg font-medium text-gray-900">${product.price / 100}</p>  */}
+    </Link>
+  )
+}
