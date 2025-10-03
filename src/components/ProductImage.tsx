@@ -7,7 +7,7 @@ import Img from 'next/image';
 
 export function ProductImage({ product }: { product: SanityProduct }) {
   const imageProps = useNextSanityImage(sanityClient, product.image, {
-    imageBuilder: (builder) => builder.width(1200).height(1200).fit('crop').crop('center')
+    imageBuilder: (builder, { width, quality }) => builder.width(width || 400).height(width || 400).fit('crop').crop('center').quality(quality || 80)
   });
 
   return (

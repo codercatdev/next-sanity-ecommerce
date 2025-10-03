@@ -36,6 +36,7 @@ export async function getProductBySlug(slug: string) {
       "slug": slug.current,
       "price": default_price->.unit_amount,
       "image": images[0].asset->,
+      "priceId": default_price->.stripePriceId,
     }
     `,
     { slug },

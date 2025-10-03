@@ -8,7 +8,7 @@ import Img from 'next/image';
 
 export function ProductCard({ product }: { product: FeaturedProduct }) {
   const imageProps = useNextSanityImage(sanityClient, product.image, {
-    imageBuilder: (builder) => builder.width(400).height(400).fit('crop').crop('center')
+    imageBuilder: (builder, { width, quality }) => builder.width(width || 400).height(width || 400).fit('crop').crop('center').quality(quality || 80)
   });
 
   return (

@@ -3,9 +3,9 @@ import { Header } from '@/components/Header'
 import { Footer } from '@/components/Footer'
 import { getProductBySlug } from '@/lib/sanity.queries'
 import { SanityProduct } from '@/types'
-import { createCheckoutSession } from '@/app/actions'
 import { ProductImage } from '@/components/ProductImage'
 import { Skeleton } from '@/components/ui/skeleton'
+import { AddToCartForm } from '@/components/AddToCartForm'
 
 function ProductDetailsSkeleton() {
   return (
@@ -73,19 +73,7 @@ async function ProductDetails({ slug }: { slug: string }) {
               <h2 className="sr-only">Product information</h2>
               <p className="text-3xl tracking-tight text-gray-900">${product.price / 100}</p>
 
-              <form action={async () => {
-                'use server'
-                if (product.stripeProductId && product.priceId) {
-                  await createCheckoutSession(product.stripeProductId, product.priceId)
-                }
-              }}>
-                <button
-                  type="submit"
-                  className="mt-10 flex w-full items-center justify-center rounded-md border border-transparent bg-indigo-600 px-8 py-3 text-base font-medium text-white hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2"
-                >
-                  Add to bag
-                </button>
-              </form>
+              <AddToCartForm product={product} />
             </div>
           </div>
         </div>
