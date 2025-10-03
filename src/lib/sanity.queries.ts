@@ -9,7 +9,14 @@ const client = createClient({
 
 export async function getProducts() {
   return client.fetch(
-    `*[_type == "product"]`,
+    `*[_type == "product"]{
+      _id,
+      name,
+      description,
+      "slug": slug.current,
+      "price": default_price->.unit_amount,
+      "image": images[0].asset->,
+    }`,
     {},
     {
       next: {

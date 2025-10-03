@@ -3,7 +3,7 @@ import { Header } from '@/components/Header'
 import { Footer } from '@/components/Footer'
 import { ProductCard } from '@/components/ProductCard'
 import { getProducts } from '@/lib/sanity.queries'
-import { SanityProduct } from '@/types'
+import { FeaturedProduct } from '@/types'
 
 async function AllProducts() {
   const products = await getProducts()
@@ -13,7 +13,7 @@ async function AllProducts() {
         <h2 className="text-2xl font-bold tracking-tight text-gray-900">All Products</h2>
 
         <div className="mt-6 grid grid-cols-1 gap-x-6 gap-y-10 sm:grid-cols-2 lg:grid-cols-4 xl:gap-x-8">
-          {products.map((product: SanityProduct) => (
+          {products.map((product: FeaturedProduct) => (
             <ProductCard key={product._id} product={product} />
           ))}
         </div>
