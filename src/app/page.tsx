@@ -5,6 +5,39 @@ import { ProductCard } from '@/components/ProductCard'
 import { ProductHero } from '@/components/ProductHero'
 import { getFeaturedProducts } from '@/lib/sanity.queries'
 import { FeaturedProduct } from '@/types'
+import { Skeleton } from '@/components/ui/skeleton'
+
+function ProductCardSkeleton() {
+  return (
+    <div className="group">
+      <div className="aspect-h-1 aspect-w-1 w-full overflow-hidden rounded-lg bg-gray-200 xl:aspect-h-8 xl:aspect-w-8">
+        <Skeleton className="h-full w-full" />
+      </div>
+      <Skeleton className="mt-4 h-4 w-3/4" />
+      <Skeleton className="mt-1 h-4 w-1/2" />
+    </div>
+  );
+}
+
+function FeaturedProductsSkeleton() {
+  return (
+    <>
+      <div className="relative h-[500px] w-full">
+        <Skeleton className="h-full w-full" />
+      </div>
+      <div className="">
+        <div className="mx-auto max-w-2xl px-4 py-16 sm:px-6 sm:py-24 lg:max-w-7xl lg:px-8">
+          <Skeleton className="h-6 w-1/3 mb-6" />
+          <div className="mt-6 grid grid-cols-1 gap-x-6 gap-y-10 sm:grid-cols-2 lg:grid-cols-4 xl:gap-x-8">
+            {[...Array(4)].map((_, i) => (
+              <ProductCardSkeleton key={i} />
+            ))}
+          </div>
+        </div>
+      </div>
+    </>
+  );
+}
 
 async function FeaturedProducts() {
   const products = await getFeaturedProducts()
@@ -33,7 +66,7 @@ export default function HomePage() {
     <>
       <Header />
       <main>
-        <Suspense fallback={<div>Loading...</div>}>
+        <Suspense fallback={<FeaturedProductsSkeleton />}>
           <FeaturedProducts />
         </Suspense>
       </main>

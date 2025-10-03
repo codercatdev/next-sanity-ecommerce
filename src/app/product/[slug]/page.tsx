@@ -5,6 +5,43 @@ import { getProductBySlug } from '@/lib/sanity.queries'
 import { SanityProduct } from '@/types'
 import { createCheckoutSession } from '@/app/actions'
 import { ProductImage } from '@/components/ProductImage'
+import { Skeleton } from '@/components/ui/skeleton'
+
+function ProductDetailsSkeleton() {
+  return (
+    <div className="bg-white">
+      <div className="pt-6">
+        <div className="mx-auto mt-6 max-w-2xl sm:px-6 lg:max-w-7xl lg:gap-x-8 lg:px-8 flex">
+          <div className='max-w-1/3'>
+            <Skeleton className="h-[500px] w-[500px]" />
+          </div>
+          <div className="mx-auto max-w-2xl px-4 pb-16 pt-10 sm:px-6 lg:grid lg:max-w-7xl lg:grid-rows-[auto,auto,1fr] lg:gap-x-8 lg:px-8 lg:pb-24 lg:pt-16">
+            <div className="lg:col-span-2 lg:pr-8">
+              <Skeleton className="h-8 w-3/4" />
+              <div className="py-10 lg:col-span-2 lg:col-start-1 lg:border-b lg:border-gray-200 lg:pb-16 lg:pr-8 lg:pt-6">
+                <div>
+                  <h3 className="sr-only">Description</h3>
+                  <div className="space-y-6">
+                    <Skeleton className="h-4 w-full" />
+                    <Skeleton className="h-4 w-5/6" />
+                    <Skeleton className="h-4 w-4/5" />
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <div className="mt-4 lg:row-span-3 lg:mt-0">
+              <h2 className="sr-only">Product information</h2>
+              <Skeleton className="h-8 w-1/4" />
+
+              <Skeleton className="mt-10 h-12 w-full" />
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  );
+}
 
 async function ProductDetails({ slug }: { slug: string }) {
   const product: SanityProduct = await getProductBySlug(slug)
@@ -65,7 +102,7 @@ export default async function ProductPage({ params }: { params: { slug: string }
     <>
       <Header />
       <main>
-        <Suspense fallback={<div>Loading...</div>}>
+        <Suspense fallback={<ProductDetailsSkeleton />}>
           <ProductDetails slug={slug} />
         </Suspense>
       </main>
