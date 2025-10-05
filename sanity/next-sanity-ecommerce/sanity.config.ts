@@ -1,4 +1,4 @@
-import { defineConfig } from 'sanity'
+import { defineConfig, isDev } from 'sanity'
 import { structureTool } from 'sanity/structure'
 import { visionTool } from '@sanity/vision'
 import { schemaTypes } from './schemaTypes'
@@ -12,7 +12,7 @@ export default defineConfig({
   projectId: 'fpjavumg',
   dataset: 'production',
 
-  plugins: [structureTool(), visionTool(), media()],
+  plugins: [structureTool(), media(), ...(isDev ? [visionTool()] : [])],
 
   schema: {
     types: schemaTypes,
