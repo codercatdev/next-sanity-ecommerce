@@ -9,26 +9,27 @@ import {
 } from '@/components/ui/sheet'
 import { Button } from './ui/button'
 import { ShoppingCart } from 'lucide-react'
-import { SignedIn, SignedOut, SignIn, SignInButton, SignUpButton, useAuth, UserButton } from '@clerk/nextjs'
+import { SignedIn, SignedOut, SignInButton, SignUpButton, useAuth } from '@clerk/nextjs'
 import { getCart } from '@/app/actions'
-import { useEffect, useState } from 'react'
+import { useCallback, useEffect, useState } from 'react'
 import { CartItem } from './CartItem'
+import { SanityCart } from '@/types'
 
 export function CartSheet() {
   const { sessionId } = useAuth()
-  const [cart, setCart] = useState<any>(null)
+  const [cart, setCart] = useState<SanityCart | null>(null)
   const [isOpen, setIsOpen] = useState(false)
 
-  const fetchCart = async () => {
+  const fetchCart = useCallback(async () => {
     if (sessionId) {
       const cartData = await getCart(sessionId)
       setCart(cartData)
     }
-  }
+  }, [sessionId])
 
   useEffect(() => {
     fetchCart()
-  }, [sessionId])
+  }, [fetchCart])
 
   useEffect(() => {
     const handleCartUpdate = () => {
@@ -39,7 +40,7 @@ export function CartSheet() {
     return () => {
       window.removeEventListener('cart-updated', handleCartUpdate)
     }
-  }, [])
+  }, [fetchCart])
 
   return (
     <Sheet open={isOpen} onOpenChange={setIsOpen}>
@@ -68,7 +69,7 @@ export function CartSheet() {
         <SignedIn>
           {cart && cart.items && cart.items.length > 0 ? (
             <ul role="list" className="divide-y divide-gray-200">
-              {cart.items.map((item: any) => (
+              {cart.items.map((item) => (
                 <CartItem key={item.product._id} item={item} cartId={cart._id} />
               ))}
             </ul>

@@ -2,6 +2,7 @@
 
 import { createClient } from '@sanity/client'
 import Stripe from 'stripe'
+import { SanityCart } from '@/types'
 
 const stripe = new Stripe(process.env.STRIPE_SECRET_KEY!, {
   apiVersion: '2025-09-30.clover',
@@ -46,7 +47,7 @@ export async function addToCart(productId: string, sessionId: string): Promise<{
     const cart = await sanityClient.fetch('*[_type == "cart" && sessionId == $sessionId][0]', { sessionId })
 
     if (cart) {
-      const productIndex = cart.items.findIndex((item: any) => item.product._ref === productId)
+      const productIndex = cart.items.findIndex((item: { product: { _ref: string } }) => item.product._ref === productId)
 
       if (productIndex > -1) {
         await sanityClient
@@ -100,7 +101,7 @@ export async function removeCartItem(cartId: string, itemId: string): Promise<{ 
   }
 }
 
-export async function getCart(sessionId: string): Promise<any> {
+export async function getCart(sessionId: string): Promise<SanityCart | null> {
   try {
     const cart = await sanityClient.fetch(
       `*[_type == "cart" && sessionId == $sessionId][0]{
@@ -144,7 +145,7 @@ export async function createCheckoutSessionFromCart(cartId: string): Promise<{ u
       return { error: 'Cart is empty' }
     }
 
-    const lineItems = cart.items.map((item: any) => ({
+    const lineItems = cart.items.map((item: { product: { priceId: string }; quantity: number }) => ({
       price: item.product.priceId,
       quantity: item.quantity,
     }))

@@ -2,6 +2,7 @@ import { SignedOut, SignInButton, SignUpButton, SignedIn, UserButton } from '@cl
 import Link from 'next/link'
 import { Button } from './ui/button'
 import { CartSheet } from './CartSheet'
+import Image from 'next/image'
 
 export function Header() {
   return (
@@ -10,7 +11,7 @@ export function Header() {
         <div className="flex lg:flex-1">
           <Link href="/" className="-m-1.5 p-1.5">
             <span className="sr-only">Your Company</span>
-            <img className="h-8 w-auto" src="https://tailwindui.com/img/logos/mark.svg?color=indigo&shade=600" alt="" />
+            <Image src="https://tailwindui.com/img/logos/mark.svg?color=indigo&shade=600" alt="Your Company" width={32} height={32} />
           </Link>
         </div>
         <div className="hidden lg:flex lg:gap-x-12">

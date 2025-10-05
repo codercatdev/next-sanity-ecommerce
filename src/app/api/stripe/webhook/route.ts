@@ -48,7 +48,7 @@ async function syncProductToSanity(product: Stripe.Product) {
     _type: 'product',
     name: product.name,
     slug: { _type: 'slug', current: product.name.toLowerCase().replace(/\s+/g, '-') },
-    description: product.description,
+    description: product.description || '',
     stripeProductId: product.id,
     brand: product.metadata.brand || '',
     images: validImageRefs,
@@ -170,9 +170,10 @@ export async function POST(req: NextRequest) {
 
   try {
     event = stripe.webhooks.constructEvent(body, signature, webhookSecret)
-  } catch (err: any) {
-    console.error(`Webhook signature verification failed: ${err.message}`)
-    return NextResponse.json({ error: err.message }, { status: 400 })
+  } catch (err) {
+    const errorMessage = err instanceof Error ? err.message : 'Unknown error'
+    console.error(`Webhook signature verification failed: ${errorMessage}`)
+    return NextResponse.json({ error: errorMessage }, { status: 400 })
   }
 
   // Handle the event

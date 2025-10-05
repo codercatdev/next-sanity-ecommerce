@@ -1,6 +1,6 @@
 'use client'
 
-import { Suspense, useEffect, useState } from 'react'
+import { Suspense, useCallback, useEffect, useState } from 'react'
 import { Header } from '@/components/Header'
 import { Footer } from '@/components/Footer'
 import { getCart } from '@/app/actions'
@@ -19,16 +19,16 @@ function CartDetails() {
   const { sessionId } = useAuth()
 
 
-  const fetchCart = async () => {
+  const fetchCart = useCallback(async () => {
     if (sessionId) {
       const cartData = await getCart(sessionId)
       setCart(cartData)
     }
-  }
+  }, [sessionId])
 
   useEffect(() => {
     fetchCart()
-  }, [sessionId])
+  }, [fetchCart])
 
   useEffect(() => {
     const handleCartUpdate = () => {
@@ -38,7 +38,7 @@ function CartDetails() {
     return () => {
       window.removeEventListener('cart-updated', handleCartUpdate)
     }
-  }, [])
+  }, [fetchCart])
 
   const handleCheckout = async () => {
     if (cart) {

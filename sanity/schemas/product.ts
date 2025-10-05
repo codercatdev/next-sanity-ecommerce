@@ -1,4 +1,4 @@
-import {defineField, defineType} from 'sanity'
+import { defineField, defineType } from 'sanity'
 
 export default defineType({
   name: 'product',
@@ -28,7 +28,7 @@ export default defineType({
       name: 'images',
       title: 'Images',
       type: 'array',
-      of: [{type: 'image', options: {hotspot: true}}],
+      of: [{ type: 'image', options: { hotspot: true } }],
     }),
     defineField({
       name: 'brand',
@@ -39,13 +39,13 @@ export default defineType({
       name: 'prices',
       title: 'Prices',
       type: 'array',
-      of: [{type: 'reference', to: [{type: 'price'}]}],
+      of: [{ type: 'reference', to: [{ type: 'price' }] }],
     }),
     defineField({
       name: 'default_price',
       title: 'Default Price',
       type: 'reference',
-      to: [{type: 'price'}],
+      to: [{ type: 'price' }],
     }),
     defineField({
       name: 'stripeProductId',
@@ -67,7 +67,7 @@ export default defineType({
       name: 'embedding',
       title: 'Embedding',
       type: 'array',
-      of: [{type: 'number'}],
+      of: [{ type: 'number' }],
       hidden: true,
     }),
   ],

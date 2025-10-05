@@ -1,11 +1,11 @@
 'use client'
 
 import { SanityCart } from '@/types'
-import Image from 'next/image'
+
 import Link from 'next/link'
 import { toast } from 'sonner'
 import { updateCartItemQuantity, removeCartItem } from '@/app/actions'
-import { useRouter } from 'next/navigation'
+
 import { useState } from 'react'
 import { Input } from '@/components/ui/input'
 import { ProductImage } from './ProductImage'
