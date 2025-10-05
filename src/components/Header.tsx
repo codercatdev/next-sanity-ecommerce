@@ -9,9 +9,10 @@ export function Header() {
     <header className="bg-white">
       <nav className="mx-auto flex max-w-7xl items-center justify-between p-6 lg:px-8" aria-label="Global">
         <div className="flex lg:flex-1">
-          <Link href="/" className="-m-1.5 p-1.5">
-            <span className="sr-only">Your Company</span>
-            <Image src="https://tailwindui.com/img/logos/mark.svg?color=indigo&shade=600" alt="Your Company" width={32} height={32} />
+          <Link href="/" className="-m-1.5 p-1.5 flex">
+            <span className="sr-only">CodingCat.dev</span>
+            <Image src="/aj.svg" alt="CodingCat.dev Logo" width={32} height={32} />
+            <span className="ml-2 font-bold text-xl">CodingCat.dev</span>
           </Link>
         </div>
         <div className="hidden lg:flex lg:gap-x-12">
@@ -23,7 +24,6 @@ export function Header() {
           </Link>
         </div>
         <div className="hidden lg:flex lg:flex-1 lg:justify-end items-center gap-4">
-          <CartSheet />
           <SignedOut>
             <SignInButton mode="modal">
               <Button variant="ghost">
@@ -37,6 +37,7 @@ export function Header() {
             </SignUpButton>
           </SignedOut>
           <SignedIn>
+            <CartSheet />
             <UserButton />
           </SignedIn>
         </div>
