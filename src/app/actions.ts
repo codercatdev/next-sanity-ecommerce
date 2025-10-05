@@ -100,6 +100,32 @@ export async function removeCartItem(cartId: string, itemId: string): Promise<{ 
   }
 }
 
+export async function getCart(sessionId: string): Promise<any> {
+  try {
+    const cart = await sanityClient.fetch(
+      `*[_type == "cart" && sessionId == $sessionId][0]{
+        ...,
+        items[]{
+          ...,
+          product->{
+            _id,
+            name,
+            description,
+            "slug": slug.current,
+            "price": default_price->.unit_amount,
+            "image": images[0].asset->,
+          }
+        }
+      }`,
+      { sessionId }
+    );
+    return cart;
+  } catch (error) {
+    console.error(error);
+    return null;
+  }
+}
+
 export async function createCheckoutSessionFromCart(cartId: string): Promise<{ url?: string; error?: string }> {
   try {
     const cart = await sanityClient.fetch(

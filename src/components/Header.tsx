@@ -1,6 +1,7 @@
 import { SignedOut, SignInButton, SignUpButton, SignedIn, UserButton } from '@clerk/nextjs'
 import Link from 'next/link'
 import { Button } from './ui/button'
+import { CartSheet } from './CartSheet'
 
 export function Header() {
   return (
@@ -20,16 +21,15 @@ export function Header() {
             Products
           </Link>
         </div>
-        <div className="hidden lg:flex lg:flex-1 lg:justify-end">
-          {/* Add cart icon here */}
-
+        <div className="hidden lg:flex lg:flex-1 lg:justify-end items-center gap-4">
+          <CartSheet />
           <SignedOut>
-            <SignInButton>
+            <SignInButton mode="modal">
               <Button variant="ghost">
                 Sign In
               </Button>
             </SignInButton>
-            <SignUpButton>
+            <SignUpButton mode="modal">
               <Button>
                 Sign Up
               </Button>

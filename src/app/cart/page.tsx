@@ -3,11 +3,12 @@
 import { Suspense, useEffect, useState } from 'react'
 import { Header } from '@/components/Header'
 import { Footer } from '@/components/Footer'
-import { getCart } from '@/lib/sanity.queries'
+import { getCart } from '@/app/actions'
 import { SanityCart } from '@/types'
 import { CartItem } from '@/components/CartItem'
 import { createCheckoutSessionFromCart } from '@/app/actions'
 import { toast } from 'sonner'
+import { useAuth } from '@clerk/nextjs'
 
 function CartDetailsSkeleton() {
   return <div>Loading...</div>
@@ -15,22 +16,29 @@ function CartDetailsSkeleton() {
 
 function CartDetails() {
   const [cart, setCart] = useState<SanityCart | null>(null)
-  const [sessionId, setSessionId] = useState<string | null>(null)
+  const { sessionId } = useAuth()
 
-  useEffect(() => {
-    let sid = localStorage.getItem('sessionId')
-    if (!sid) {
-      sid = Math.random().toString(36).substring(2, 15) + Math.random().toString(36).substring(2, 15)
-      localStorage.setItem('sessionId', sid)
-    }
-    setSessionId(sid)
-  }, [])
 
-  useEffect(() => {
+  const fetchCart = async () => {
     if (sessionId) {
-      getCart(sessionId).then((cart) => setCart(cart))
+      const cartData = await getCart(sessionId)
+      setCart(cartData)
     }
+  }
+
+  useEffect(() => {
+    fetchCart()
   }, [sessionId])
+
+  useEffect(() => {
+    const handleCartUpdate = () => {
+      fetchCart()
+    }
+    window.addEventListener('cart-updated', handleCartUpdate)
+    return () => {
+      window.removeEventListener('cart-updated', handleCartUpdate)
+    }
+  }, [])
 
   const handleCheckout = async () => {
     if (cart) {
@@ -61,7 +69,7 @@ function CartDetails() {
 
             <ul role="list" className="divide-y divide-gray-200 border-b border-t border-gray-200">
               {cart.items.map((item) => (
-                <CartItem key={item._key} item={item} cartId={cart._id} />
+                <CartItem key={item.product._id} item={item} cartId={cart._id} />
               ))}
             </ul>
           </section>

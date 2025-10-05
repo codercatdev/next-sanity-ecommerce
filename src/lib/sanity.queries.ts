@@ -66,26 +66,4 @@ export async function getFeaturedProducts() {
   )
 }
 
-export async function getCart(sessionId: string) {
-  return client.fetch(
-    `*[_type == "cart" && sessionId == $sessionId][0]{
-      _id,
-      items[]{
-        _key,
-        quantity,
-        product->{
-          _id,
-          name,
-          "slug": slug.current,
-          "price": default_price->.unit_amount,
-          "image": images[0].asset->,
-          "priceId": default_price->.stripePriceId
-        }
-      }
-    }`,
-    { sessionId },
-    {
-      cache: 'no-store',
-    }
-  )
-}
+

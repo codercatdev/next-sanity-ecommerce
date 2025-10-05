@@ -17,6 +17,7 @@ export function AddToCart({ product }: { product: SanityProduct }) {
         toast.error(result.error)
       } else {
         toast.success('Added to cart')
+        window.dispatchEvent(new CustomEvent('cart-updated'))
       }
     } else {
       toast.error('Product information is missing.')
