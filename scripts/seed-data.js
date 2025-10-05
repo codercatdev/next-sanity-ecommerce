@@ -3,7 +3,6 @@ require('dotenv').config({ path: '.env.local' });
 
 const Stripe = require('stripe');
 const { createClient } = require('@sanity/client');
-const fetch = require('node-fetch');
 const { faker } = require('@faker-js/faker');
 
 const stripe = new Stripe(process.env.STRIPE_SECRET_KEY, {
